@@ -8,7 +8,7 @@ Date: **Tuesday, April 23rd at 11am EDT**
 
 
 # RGateway
-R Gateway via RServe for InterSystems IRIS Data Platform. Author [Shiao-Bin Soong](mailto:Shiao-Bin.Soong@intersystems.com),  [Github](https://github.com/ssoong88).
+R Gateway via RServe for InterSystems IRIS Data Platform. Author Shiao-Bin Soong: [email](mailto:Shiao-Bin.Soong@intersystems.com),  [github profile](https://github.com/ssoong88).
 
 # ML Toolkit user group
 
