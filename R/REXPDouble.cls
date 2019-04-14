@@ -9,7 +9,7 @@ Parameter NA = {$CHAR($ZHEX("a2"),$ZHEX("07"),$ZHEX("00"),$ZHEX("00"),$ZHEX("00"
 Property payload As %ListOfDataTypes;
 
 /** checks whether a given double value is a NA representation in R. Note that NA is NaN but not all NaNs are NA. */
-ClassMethod isNAN(value As %Double) As %Boolean
+ClassMethod isNAN(value As %String) As %Boolean
 {
 		/* on OS X i386 the MSB of the fraction is set even though R doesn't set it.
 		   Although this is technically a good idea (to make it a QNaN) it's not what R does and thus makes the comparison tricky */
@@ -99,27 +99,20 @@ Method toString() As %String
 	quit sb
 }
 
-/*
-Method toDebugString() As %String
+Method toJSON() As %DynamicObject
 {
-	Set sb = ##super()_"{"
-	set len = ..payload.Count()
-	For i=1:1:len {
-		Set sb = sb_..payload.GetAt(i)
-		Set:i<len sb = sb_","
-	}
-	Set sb = sb_"}"
-	Quit sb
-}
-*/
-Method toJSON() As %ZEN.proxyObject
-{
-	Set d = ##class(%ZEN.proxyObject).%New()
+	Set d = ##class(%DynamicObject).%New()
 	Set len = ..payload.Count()
 	Set d.length = len
-	Set a = ##class(%ListOfDataTypes).%New()
-	for i=1:1:len {
-		Do a.Insert(..payload.GetAt(i))
+	Set a = ##class(%DynamicArray).%New()
+	For i=1:1:len {
+		Set v = ..payload.GetAt(i)
+		If ..isNAN(v) {
+			Do a.%Push("NA", "string")
+		}
+		Else {
+			Do a.%Push(v, "number")
+		}
 	}
 	Set d.payload = a
 	Quit d

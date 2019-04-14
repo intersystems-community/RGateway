@@ -76,18 +76,15 @@ Method toString() As %String
 	Quit ##super()
 }
 
-/*
-Method toDebugString() As %String
+Method toJSON() As %DynamicObject
 {
-	Set sb = "levels"
-	Set sb = sb_..factor.toDebugString()
-	Quit sb
-}
-*/
-Method toJSON() As %ZEN.proxyObject
-{
-	Set d = ##class(%ZEN.proxyObject).%New()
-	Set d.levels=..levels
+	Set d = ##class(%DynamicObject).%New()
+	Set a = ##class(%DynamicArray).%New()
+	Set len = ..levels.Count()
+	For i=1:1:len {
+		Do a.%Push(..levels.GetAt(i), "number")
+	}
+	Set d.levels=a
 	Set d.factor=..factor.toJSON()
 	Quit d
 }

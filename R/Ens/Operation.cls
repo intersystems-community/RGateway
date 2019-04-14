@@ -2,8 +2,6 @@
 Class R.Ens.Operation Extends Ens.BusinessOperation
 {
 
-Property Adapter As R.Ens.OutboundAdapter;
-
 Parameter ADAPTER = "R.Ens.OutboundAdapter";
 
 XData MessageMap

@@ -9,6 +9,8 @@ ClassMethod Connection()
 	}
 	catch (e) {
 		w e.Data, !
+		s sc = e.AsStatus()
+		do $system.Status.DisplayError(sc)
 	}
 	do:c'="" c.close()
 	
@@ -24,6 +26,7 @@ ClassMethod Eval()
 		w r.asString(), !
 		w r.toString(), !
 		w r.toDebugString(), !
+		d r.print()
 		
 		// string array
 		set r = c.eval("x<-c(""hello"",""world"")")
@@ -32,6 +35,7 @@ ClassMethod Eval()
 		set r = c.get("x")
 		w r.toString(), !
 		w r.toDebugString(), !
+		d r.print()
 		
 		// int array
 		set r = c.eval("x<-as.integer(c(1,2, NA))")
@@ -153,6 +157,7 @@ ClassMethod Factor()
 		do c.assign("f", f)
 		set f = c.parseAndEval("f")
 		w f.toString(), !
+		w f.toDebugString(), !
 		
 		// factors
         w !, "* Test support of factors", !
@@ -193,7 +198,6 @@ ClassMethod Dataframe()
    		#dim r as R.REXP = c.eval("x<-data.frame(id=c(1:3),name=c('Rick','Dan','Michelle'),salary=c(623.3,515.2,611.0))")
    		w r.toDebugString(), !
 		
-		/*
 		w !, "* Testing pass-though capability for data.frames ...", !
 		set df = c.parseAndEval("{data(iris); iris}")
 		w df.toString(), !
@@ -201,7 +205,7 @@ ClassMethod Dataframe()
 		set x = c.eval("identical(df, iris)")
 		w "  identical(df, iris) = ", x.toString(), !
 		w "PASSED", !
-		*/
+
 	}
 	catch (e) {
 		w e.Data, !
@@ -481,6 +485,81 @@ ClassMethod Control()
 	#dim c as R.RConnection = ""
 	try {
 		set c = ##class(R.RConnection).%New()
+		
+		// test control commands (works only when enabled and in Rserve 0.6-0 and higher only) - must be the last test since it closes the connection and shuts down the server
+		w "* Test control commands (this will fail if control commands are disabled) ...", !
+		w "  server eval", !
+		set key = "rn"_$random(10) // generate a random number to prevent contamination from previous tests
+		w "key = ", key, !
+		do c.serverEval("xXx<-'"_key_"'")
+		do c.close()
+		set c = ##class(R.RConnection).%New()
+		#dim x As R.REXP = c.eval("xXx")
+		w x.toString(), !
+		do c.serverEval("rm(xXx)") // remove the test variable to not pollute the global workspace
+		w "  server shutdown", !
+		do c.serverShutdown()
+		w "PASSED", !
+	}
+	catch (e) {
+		w e.Data, !
+	}
+	do:c'="" c.close()
+	
+	Quit
+}
+
+ClassMethod Session1()
+{
+	#dim c as R.RConnection = ""
+	try {
+		set c = ##class(R.RConnection).%New()
+		do c.eval("x=333")
+	}
+	catch (e) {
+		w e.Data, !
+	}
+	do:c'="" c.close()
+	
+	Quit
+}
+
+ClassMethod Session2()
+{
+	#dim c as R.RConnection = ""
+	try {
+		set c = ##class(R.RConnection).%New()
+
+		// At least on windows machine, one R session corresponds to one connection.
+		// Even the connection is closed, the R session still lives
+		// After reconnection, it remembers the session and all its data 
+		// However, after Rserve is killed, the session data is lost
+		// On Windows, a second connection cannot be created in the same process even the previous one is closed
+		set x = c.get("x")
+		w x.toString(), !
+	}
+	catch (e) {
+		w e.Data, !
+	}
+	do:c'="" c.close()
+	
+	Quit
+}
+
+ClassMethod Session()
+{
+	#dim c as R.RConnection = ""
+	try {
+		// It seems it cannot detach and attach on Windows.
+		// Need to test it on Linux
+		set c = ##class(R.RConnection).%New()
+		
+		do c.eval("x=333")
+		#dim s as R.RSession = c.detach()
+		
+		set c = s.attach()
+		set x = c.get("x")
+		w x.toString(), !
 	}
 	catch (e) {
 		w e.Data, !

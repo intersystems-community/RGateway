@@ -2,11 +2,11 @@ Class R.Utils Extends %RegisteredObject
 {
 
 /// R terminal simulator
-/// do ##class(R.Utils).RTerminal()
-ClassMethod RTerminal(host As %String = "127.0.0.1", port As %Integer = 6311, c As R.RConnection = "")
+ClassMethod RTerminal(host As %String = "127.0.0.1", port As %Integer = 6311)
 {
-	try {		
-		set:c="" c = ##class(RConnection).%New(host,port)
+	#dim c as RConnection = ""
+	try {
+		set c = ##class(RConnection).%New(host,port)
 		for {
 			write "R>"
 			read cmd, !

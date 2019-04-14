@@ -51,22 +51,9 @@ Method toString() As %String
 	Quit ..payload.toString()
 }
 
-/*
-Method toDebugString() As %String
+Method toJSON() As %DynamicObject
 {
-	Set sb = ##super()_"{"
-	For i=1:1:..payload.size() {
-		Set name = ..payload.keyAt(i)
-		Set:name'="" sb = sb_name_"="
-		Set sb = sb_..payload.at(i).toDebugString()
-	}
-	Set sb = sb_"}"
-	Quit sb
-}
-*/
-Method toJSON() As %ZEN.proxyObject
-{
-	Set d = ##class(%ZEN.proxyObject).%New()
+	Set d = ##class(%DynamicObject).%New()
 	Set d.classname = ..%ClassName(1)
 	Set d.payload = ..payload.toJSON()
 	Quit d

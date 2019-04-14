@@ -26,7 +26,6 @@ XData BPL [ XMLNamespace = "http://www.intersystems.com/bpl" ]
 n <- nrow(pima)
 train <- sample(n, trunc(0.70*n))
 pima_training <- pima[train, ]
-pima_testing <- pima
 glm_fm <- glm(Diabetes ~., data = pima_training, family = binomial)]]></annotation>
 <request type='R.Msg.VoidEvalRequest' >
 <assign property="callrequest.Code" value="process.GetAnnotation(&quot;TrainModel&quot;)" action="set" />

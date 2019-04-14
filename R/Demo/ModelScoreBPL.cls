@@ -1,5 +1,5 @@
 /// 
-Class R.Demo.ModelScoreBPL Extends Ens.BusinessProcessBPL [ ClassType = persistent, ProcedureBlock ]
+Class R.Demo.ModelScoreBPL Extends Ens.BusinessProcessBPL [ ClassType = persistent, DependsOn = R.Ens.ProcessUtils, ProcedureBlock ]
 {
 
 /// BPL Definition

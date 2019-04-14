@@ -37,9 +37,9 @@ Method toString() As %String
 	quit sb
 }
 
-Method toJSON() As %ZEN.proxyObject
+Method toJSON() As %DynamicObject
 {
-	Set d = ##class(%ZEN.proxyObject).%New()
+	Set d = ##class(%DynamicObject).%New()
 	Set len = ..payload.SizeGet()
 	Set d.length = len
 	Set d.payload = ..binaryToHEX()

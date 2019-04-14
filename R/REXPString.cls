@@ -53,14 +53,14 @@ Method isNA() As %ListOfDataTypes
 	Quit a
 }
 
-Method toJSON() As %ZEN.proxyObject
+Method toJSON() As %DynamicObject
 {
-	Set d = ##class(%ZEN.proxyObject).%New()
+	Set d = ##class(%DynamicObject).%New()
 	Set len = ..payload.Count()
 	Set d.length = len
-	Set a = ##class(%ListOfDataTypes).%New()
+	Set a = ##class(%DynamicArray).%New()
 	for i=1:1:len {
-		Do a.Insert(..payload.GetAt(i))
+		Do a.%Push(..payload.GetAt(i), "string")
 	}
 	Set d.payload = a
 	Quit d
@@ -78,18 +78,5 @@ Method toString() As %String
 	quit sb
 }
 
-/*
-Method toDebugString() As %String
-{
-	Set sb = ##super()_"{"
-	Set len = ..payload.Count()
-	For i=1:1:len {
-		Set sb = sb_"\"_..payload.GetAt(i)_"\"
-		Set:i<len sb=sb_","
-	}
-	Set sb = sb_"}"
-	Quit sb
-}
-*/
 }
 

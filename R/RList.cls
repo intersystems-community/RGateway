@@ -163,35 +163,22 @@ Method toString() As %String
 	quit sb
 }
 
-/*
-Method toDebugString() As %String
+Method toJSON() As %DynamicObject
 {
-	Set len = ..Count()
-	Set sb = "RList{"
-	for i=1:1:len {
-		set sb=sb_..names.GetAt(i)_":"_..GetAt(i).toDebugString()
-		set:i<len sb=sb_","
-	}
-	set sb=sb_"}"
-	Quit sb
-}
-*/
-Method toJSON() As %ZEN.proxyObject
-{
-	Set d = ##class(%ZEN.proxyObject).%New()
+	Set d = ##class(%DynamicObject).%New()
 	Set d.classname = ..%ClassName(1)
 	Set len = ..Count()
 	Set d.length = len
 	
-	Set na = ##class(%ListOfDataTypes).%New()
+	Set na = ##class(%DynamicArray).%New()
 	for i=1:1:..names.Count() {
-		Do na.Insert(..names.GetAt(i))
+		Do na.%Push(..names.GetAt(i), "string")
 	}
 	Set d.names = na
 	
-	Set con = ##class(%ListOfObjects).%New()
+	Set con = ##class(%DynamicArray).%New()
 	for i=1:1:..Count() {
-		Do con.Insert(..GetAt(i).toJSON())
+		Do con.%Push(..GetAt(i).toJSON())
 	}
 	Set d.contents = con
 	

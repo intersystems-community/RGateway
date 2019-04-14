@@ -67,14 +67,9 @@ Method Eval(code As %String, Output pSC As %Status) As R.REXP
 	Set pSC = $$$OK
 	Set tValue = ""
 	Try {
-		for i=1:1:$l(code, $c(10)) {
-			set tLine = $p(code, $c(10), i)
-			$$$TRACE(tLine)
-			Set tValue = ..RCon.eval(tLine)
-		}
+		Set tValue = ..RCon.eval(code)
 	}
 	Catch (ex) {
-		//break
 		Set pSC = ex.AsStatus()
 	}
 	Quit tValue

@@ -141,14 +141,14 @@ Method isReference() As %Boolean
 	Quit 0
 }
 
-Method toJSON() As %ZEN.proxyObject
+Method toJSON() As %DynamicObject
 {
 	Quit ""
 }
 
-Method getProxy() As %ZEN.proxyObject
+Method getJSON() As %DynamicObject
 {
-	Set d = ##class(%ZEN.proxyObject).%New()
+	Set d = ##class(%DynamicObject).%New()
 	Set d.classname = ..%ClassName(1)
 	Set d.attr = $S(..attr="":"",1:..attr.toJSON())
 	Set d.data = ..toJSON()
@@ -162,13 +162,44 @@ Method toString() As %String
 
 Method toDebugString() As %String
 {
-	Set d = ..getProxy()
-	Quit d.%ToJSON(,"aeloi2w")
+	Set d = ..getJSON()
+	Quit d.%ToJSON()
 }
 
-Method print()
+Method print(level As %Integer = 0, json As %DynamicAbstractObject = "")
 {
-	Do ..getProxy().%Print()
+	Set:json="" json = ..getJSON()
+	Set iter = json.%GetIterator()
+	While iter.%GetNext(.key, .value) {
+		Write ?(level*4),key,": "
+		Set type = json.%GetTypeOf(key)
+		If "string"=type {
+			Write """", value, """"
+		}
+		ElseIf ("boolean"=type) || ("number"=type) {
+			Write value
+		}
+		ElseIf "null"=type {
+			Write "''"
+		}
+		ElseIf "object"=type {
+			Write !
+			Do ..print(level+1, value)
+		}
+		ElseIf "array"=type {
+			Write !
+			Write "["
+			Do ..print(level+1, value)
+			Write "]"
+		}
+		ElseIf "oref"=type {
+			Write value
+		}
+		Else {
+			Write "'unassigned'"
+		}
+		Write !
+	}
 }
 
 // basic accessor methods

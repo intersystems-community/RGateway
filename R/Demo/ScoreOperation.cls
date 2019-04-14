@@ -3,9 +3,13 @@ Class R.Demo.ScoreOperation Extends R.Ens.Operation
 
 Parameter INVOCATION = "Queue";
 
-Property ModelFileName As %String [ InitialExpression = "diabetes_glm" ];
+Property ModelLoadScript As %String(MAXLEN = "") [ InitialExpression = "glm_fm <- readRDS('diabetes_glm')" ];
 
-Parameter SETTINGS = "ModelFileName";
+Property DataVariableName As %String [ InitialExpression = "x" ];
+
+Property ScoreScript As %String(MAXLEN = "") [ InitialExpression = "predict(glm_fm, newdata = x, type = 'response')" ];
+
+Parameter SETTINGS = "ModelLoadScript,DataVariableName,ScoreScript";
 
 Method Score(pRequest As R.Demo.PimaRecordMap.Record, Output pResponse As R.Demo.ScoreResponse) As %Status
 {
@@ -33,8 +37,8 @@ Method Score(pRequest As R.Demo.PimaRecordMap.Record, Output pResponse As R.Demo
  		Do list.put("Diabetes", ##class(R.REXPInteger).%New(ldiabetes))
  		
  		Set df = ##class(R.REXP).createDataFrame(list)
-	 	Do ..Adapter.Assign("x", df)
-	 	Set pred = ..Adapter.Eval("pred <- predict(glm_fm, newdata = x, type = 'response')", .tSC)
+	 	Do ..Adapter.Assign(..DataVariableName, df)
+	 	Set pred = ..Adapter.Eval(..ScoreScript, .tSC)
 	 	Quit:$$$ISERR(tSC)
 	 	Set prob = pred.asDouble()
 	 	$$$LOGINFO("Predicted Probability: "_prob)
@@ -54,7 +58,7 @@ Method OnInit() As %Status
 	Set tSC = $$$OK
 	Try {
 		// Load model
-		Do ..Adapter.VoidEval("glm_fm <- readRDS('"_..ModelFileName_"')")
+		Do ..Adapter.VoidEval(..ModelLoadScript)
 	}
 	Catch (ex) {
 		Set tSC = ex.AsStatus()

@@ -120,14 +120,20 @@ Method isFALSE() As %ListOfDataTypes
 	Quit a
 }
 
-Method toJSON() As %ZEN.proxyObject
+Method toJSON() As %DynamicObject
 {
-	Set d = ##class(%ZEN.proxyObject).%New()
+	Set d = ##class(%DynamicObject).%New()
 	Set len = ..payload.Count()
 	Set d.length = len
-	Set a = ##class(%ListOfDataTypes).%New()
+	Set a = ##class(%DynamicArray).%New()
 	for i=1:1:len {
-		Do a.Insert(..payload.GetAt(i))
+		Set v = ..payload.GetAt(i)
+		If ..isNAN(v) {
+			Do a.%Push("NA", "string")
+		}
+		Else {
+			Do a.%Push(v, "boolean")
+		}
 	}
 	Set d.payload = a
 	Quit d
@@ -145,18 +151,5 @@ Method toString() As %String
 	quit sb
 }
 
-/*
-Method toDebugString() As %String
-{
-	Set sb = ##super()_"{"
-	Set len = ..payload.Count()
-	For i=1:1:len {
-		Set sb=sb_$CASE(..payload.GetAt(i),..#NA:"NA",0:"FALSE",:"TRUE")
-		Set:i<len sb=sb_","
-	}
-	Set sb = sb_"}"
-	Quit sb
-}
-*/
 }
 

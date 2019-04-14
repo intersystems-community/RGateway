@@ -205,40 +205,26 @@ Method toString() As %String
 	Quit "[ids:"_..ids.Count()_",levels:"_..levels.Count()_",indexbase:"_..indexbase_"]"
 }
 
-/*
-Method toDebugString() As %String
+Method toJSON() As %DynamicObject
 {
-	Set sb = "<"
-	// ids
-	Set len = ..ids.Count()
-	Set sb = sb_"ids=["_len_"]{"
-	For i=1:1:len {
-		Set sb = sb_..ids.GetAt(i)
-		Set:i<len sb = sb_","
-	}
-	Set sb = sb_"}"
-	//levels
-	Set len = ..levels.Count()
-	Set sb = sb_"levels=["_len_"]{"
-	For i=1:1:len {
-		Set sb = sb_..ids.GetAt(i)
-		Set:i<len sb = sb_","
-	}
-	Set sb = sb_"}"
-	//indexbase
-	Set sb = sb_"indexbase="_..indexbase
-	Set sb = sb_">"
-	Quit sb
-}
-*/
-Method toJSON() As %ZEN.proxyObject
-{
-	Set d = ##class(%ZEN.proxyObject).%New()
+	Set d = ##class(%DynamicObject).%New()
 	Set d.classname = ..%ClassName(1)
-
-	set d.ids = ..ids
-	set d.levels = ..levels	
-	set d.indexbase = ..indexbase
+	
+	set ids = ##class(%DynamicArray).%New()
+	set len = ..ids.Count()
+	for i=1:1:len {
+		do ids.%Push(..ids.GetAt(i), "number")
+	}
+	set d.ids = ids
+	
+	set levels = ##class(%DynamicArray).%New()
+	set len = ..levels.Count()
+	for i=1:1:len {
+		do levels.%Push(..levels.GetAt(i), "string")
+	}
+	set d.levels = levels
+	
+	do d.%Set("indexbase", ..indexbase, "number")
 	
 	Quit d
 }

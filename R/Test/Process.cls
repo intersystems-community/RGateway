@@ -1,5 +1,11 @@
+/// 
 Class R.Test.Process Extends (Ens.BusinessProcessBPL, R.Ens.ProcessUtils) [ ClassType = persistent, DependsOn = R.Ens.ProcessUtils, ProcedureBlock ]
 {
+
+Storage Default
+{
+<Type>%Storage.Persistent</Type>
+}
 
 /// BPL Definition
 XData BPL [ XMLNamespace = "http://www.intersystems.com/bpl" ]
@@ -23,7 +29,7 @@ XData BPL [ XMLNamespace = "http://www.intersystems.com/bpl" ]
 </property>
 <property name='Values' type='%String' collection='list' instantiate='0' >
 <parameters>
-<parameter name='MAXLEN'  value='250' />
+<parameter name='MAXLEN'  value='2500' />
 </parameters>
 </property>
 </context>
@@ -98,11 +104,6 @@ z=sqrt(z)]]></annotation>
 <sync name='Wait Get' calls='Get' type='all' xpos='200' ypos='1250' />
 </sequence>
 </process>
-}
-
-Storage Default
-{
-<Type>%Storage.Persistent</Type>
 }
 
 }

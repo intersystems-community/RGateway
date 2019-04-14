@@ -33,20 +33,14 @@ Method toString() As %String
 	Quit ##super()_"['"_..name_"']"
 }
 
-/*
-Method toDebugString() As %String
-{
-	Quit ##super()_"["_..name_"]"
-}
-*/
 Method asNativeObject() As %RegisteredObject
 {
 	Quit ..name
 }
 
-Method toJSON() As %ZEN.proxyObject
+Method toJSON() As %DynamicObject
 {
-	Set d = ##class(%ZEN.proxyObject).%New()
+	Set d = ##class(%DynamicObject).%New()
 	Set d.name = a
 	Quit d
 }
