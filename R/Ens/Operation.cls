@@ -19,6 +19,9 @@ XData MessageMap
   <MapItem MessageType="R.Msg.GetRequest">
     <Method>Get</Method>
   </MapItem>
+  <MapItem MessageType="R.Msg.AssignSQLRequest">
+    <Method>AssignSQL</Method>
+  </MapItem>
 </MapItems>
 }
 
@@ -27,22 +30,9 @@ Method Assign(request As R.Msg.AssignRequest, Output response As Ens.Response) A
 	Set tSC = $$$OK
 	Try {
 		#Dim value As R.REXP
-		If request.Type="Double" {
-			Set value = ##class(R.REXPDouble).%New(request.Values)
-		}
-		ElseIf request.Type="Integer" {
-			Set value = ##class(R.REXPInteger).%New(request.Values)
-		}
-		ElseIf request.Type="String" {
-			Set value = ##class(R.REXPString).%New(request.Values)
-		}
-		ElseIf request.Type="SQL" {
-			Set value = ##class(R.REXP).createDataFrameFromSQL(request.Values.GetAt(1))
-		}
-		Else {
-			Set tSC = $$$ERROR($$$GeneralError, "Unknown data type")
-			Quit
-		}
+		Set tSC = request.Data.ToREXP(.value)
+		Quit:$$$ISERR(tSC)
+		
 		Set tSC = ..Adapter.Assign(request.Name, value)
 	}
 	Catch (ex) {
@@ -58,18 +48,8 @@ Method Eval(request As R.Msg.EvalRequest, Output response As R.Msg.EvalResponse)
 		Set response = ##class(R.Msg.EvalResponse).%New()
 		Set tValue = ..Adapter.Eval(request.Code, .tSC)
 		Quit:$$$ISERR(tSC)
-		If tValue.%IsA("R.REXPDouble") {
-			Set response.Type = "Double"
-			Set response.Values = tValue.asDoubles()
-		}
-		ElseIf tValue.%IsA("R.REXPInteger") {
-			Set response.Type = "Integer"
-			Set response.Values = tValue.asIntegers()
-		}
-		ElseIf tValue.%IsA("R.REXPString") {
-			Set response.Type = "String"
-			Set response.Values = tValue.asStrings()
-		}
+		
+		Set tSC = response.Data.FromREXP(tValue)
 	}
 	Catch (ex) {
 		Set tSC = ex.AsStatus()
@@ -96,19 +76,21 @@ Method Get(request As R.Msg.GetRequest, Output response As R.Msg.GetResponse) As
 		Set response = ##class(R.Msg.GetResponse).%New()
 		Set value = ..Adapter.Get(request.Name, .tSC)
 		Quit:$$$ISERR(tSC)
-		Set response.Name = request.Name
-		If value.%IsA("R.REXPDouble") {
-			Set response.Type = "Double"
-			Set response.Values = value.asDoubles()
-		}
-		ElseIf value.%IsA("R.REXPInteger") {
-			Set response.Type = "Integer"
-			Set response.Values = value.asIntegers()
-		}
-		ElseIf value.%IsA("R.REXPString") {
-			Set response.Type = "String"
-			Set response.Values = value.asStrings()
-		}
+		
+		Set tSC = response.Data.FromREXP(value)
+	}
+	Catch (ex) {
+		Set tSC = ex.AsStatus()
+	}
+	Quit tSC
+}
+
+Method AssignSQL(request As R.Msg.AssignSQLRequest, Output response As Ens.Response)
+{
+	Set tSC = $$$OK
+	Try {
+		#Dim value As R.REXP = ##class(R.REXP).createDataFrameFromSQL(request.SQL)
+		Set tSC = ..Adapter.Assign(request.Name, value)
 	}
 	Catch (ex) {
 		Set tSC = ex.AsStatus()

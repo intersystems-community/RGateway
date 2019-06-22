@@ -13,10 +13,9 @@ XData BPL [ XMLNamespace = "http://www.intersystems.com/bpl" ]
 <process language='objectscript' request='Ens.Request' response='Ens.Response' height='2000' width='2000' >
 <sequence xend='200' yend='1250' >
 <call name='AssignDataset' target='R.Ens.Operation' async='1' xpos='200' ypos='250' >
-<request type='R.Msg.AssignRequest' >
+<request type='R.Msg.AssignSQLRequest' >
 <assign property="callrequest.Name" value="&quot;pima&quot;" action="set" />
-<assign property="callrequest.Type" value="&quot;SQL&quot;" action="set" />
-<assign property="callrequest.Values" value="&quot;SELECT Pregnant,PlasmaGlucose,DiasBP,TricepsSkin,SerumInsulin,BMI,DPF,Age,Diabetes FROM R_Demo.Pima&quot;" action="insert" key="&quot;1&quot;" />
+<assign property="callrequest.SQL" value="&quot;SELECT Pregnant,PlasmaGlucose,DiasBP,TricepsSkin,SerumInsulin,BMI,DPF,Age,Diabetes FROM R_Demo.Pima&quot;" action="set" />
 </request>
 <response type='Ens.Response' />
 </call>
@@ -34,7 +33,8 @@ glm_fm <- glm(Diabetes ~., data = pima_training, family = binomial)]]></annotati
 </call>
 <sync calls='TrainModel' type='all' xpos='200' ypos='550' />
 <call name='TestModel' target='R.Ens.Operation' async='1' xpos='200' ypos='650' >
-<annotation><![CDATA[glm_probs <- predict(glm_fm, newdata = pima_testing, type = 'response')
+<annotation><![CDATA[pima_testing <- pima[-train, ]
+glm_probs <- predict(glm_fm, newdata = pima_testing, type = 'response')
 glm_pred <- ifelse(glm_probs > 0.5, 1, 0)
 acc <- sum((glm_pred==pima_testing$Diabetes))/length(glm_pred)]]></annotation>
 <request type='R.Msg.EvalRequest' >

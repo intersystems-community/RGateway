@@ -325,7 +325,7 @@ Method dim() As %ListOfDataTypes
 {
 	Try {
 		If ..hasAttribute("dim") {
-			Return ..attr().asList().atKey("dim").asIntegers()
+			Return ..attr.asList().atKey("dim").asIntegers()
 		}
 		Else {
 			Return "" 
@@ -360,7 +360,7 @@ Method inherits(klass As %String) As %Boolean
 	 @return 2D array of doubles in the form double[rows][cols] or <code>null</code> if the contents is no 2-dimensional matrix of doubles */
 /// matrix: row count; mat(i): col count for row i
 /// matrix(i,j): value of ith row and jth col
-Method asDoubleMatrix(Output matrix)
+Method asMatrix(Output matrix)
 {
 	Set ct = ..asDoubles()
 	Set dim = ..getAttribute("dim")
@@ -383,12 +383,13 @@ Method asDoubleMatrix(Output matrix)
 	}
 }
 
-/** creates a REXP that represents a double matrix in R based on matrix of doubles (2D-array: m[rows][cols]). This is the same form as used by popular math packages for Java, such as JAMA. The result of this function can be used in {@link REngine.assign} to store a matrix in R.
+/** creates a REXP that represents a matrix in R based on matrix (2D-array: m[rows][cols]). This is the same form as used by popular math packages for Java, such as JAMA. The result of this function can be used in {@link REngine.assign} to store a matrix in R.
 	 @param matrix array <code>double[rows][colums]</code> containing the matrix to convert into a REXP. If <code>matrix</code> is <code>null</code> or either of the dimensions is 0 then the resulting matrix will have the dimensions <code>0 x 0</code> (Note: Java cannot represent <code>0 x n</code> matrices for <code>n &gt; 0</code>, so special matrices with one dimension of 0 can only be created by setting dimensions directly).
 	 @return <code>REXPDouble</code> with "dim" attribute which constitutes a matrix in R */
 /// matrix: row count; mat(i): col count for row i
 /// matrix(i,j): value of ith row and jth col	 
-ClassMethod createDoubleMatrix(ByRef matrix) As REXP
+/// type: Double,String,Integer,Logical
+ClassMethod createMatrix(ByRef matrix, type As %String = "Double") As REXP
 {
 	Set a = ##class(%ListOfDataTypes).%New() // double array
 	Set m = $G(matrix)
@@ -410,7 +411,12 @@ ClassMethod createDoubleMatrix(ByRef matrix) As REXP
 	
 	Set attr = ##class(REXPList).%New(##class(RList).%New(contents,dim))
 	
-	Quit ##class(REXPDouble).%New(a,attr)
+	Quit $CASE(type, 
+		"Double":##class(REXPDouble).%New(a,attr),
+		"String":##class(REXPString).%New(a,attr),
+		"Integer":##class(REXPInteger).%New(a,attr),
+		"Logical":##class(REXPInteger).%New(a,attr),
+		:"")
 }
 
 // ======= tools
@@ -507,14 +513,20 @@ ClassMethod asCallString3(name As %String, arg1 As REXP, arg2 As REXP, arg3 As R
 }
 
 /// d: one dimension array
-/// d = length, d(1), d(2) ... = values 
-ClassMethod createDouble(ByRef d) As REXPDouble
+/// d = length, d(1), d(2) ... = values
+/// type: Double,String,Integer,Logical
+ClassMethod createVector(ByRef d, type As %String = "Double") As REXPDouble
 {
 	set payload = ##class(%ListOfDataTypes).%New()
 	for i=1:1:$G(d) {
 		do payload.Insert($G(d(i)))
 	}
-	quit ##class(REXPDouble).%New(payload)
+	quit $CASE(type,
+		"Double":##class(REXPDouble).%New(payload),
+		"String":##class(REXPString).%New(payload),
+		"Integer":##class(REXPInteger).%New(payload),
+		"Logical":##class(REXPLogical).%New(payload),
+		:"")
 }
 
 ClassMethod createDataFrameFromSQL(sql As %String, Output pSC) As REXP

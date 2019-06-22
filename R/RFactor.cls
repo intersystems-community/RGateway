@@ -12,6 +12,7 @@ Method %OnNew(c As %ListOfDataTypes, indexbase As %Integer = 1, ids As %ListOfDa
 	Set ..indexbase = indexbase
 	If ids'="" {
 		Set ..ids = ids
+		// Interpret c as the levels
 		Set:c'="" ..levels = c
 	}
 	Else {

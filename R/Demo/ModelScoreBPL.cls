@@ -2,6 +2,11 @@
 Class R.Demo.ModelScoreBPL Extends Ens.BusinessProcessBPL [ ClassType = persistent, DependsOn = R.Ens.ProcessUtils, ProcedureBlock ]
 {
 
+Storage Default
+{
+<Type>%Storage.Persistent</Type>
+}
+
 /// BPL Definition
 XData BPL [ XMLNamespace = "http://www.intersystems.com/bpl" ]
 {
@@ -31,11 +36,6 @@ XData BPL [ XMLNamespace = "http://www.intersystems.com/bpl" ]
 <alert value='"High risk patient "_context.PID_"  with probability "_context.Score' xpos='200' ypos='700' />
 </sequence>
 </process>
-}
-
-Storage Default
-{
-<Type>%Storage.Persistent</Type>
 }
 
 }

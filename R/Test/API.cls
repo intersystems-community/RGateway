@@ -116,23 +116,24 @@ ClassMethod Matrix()
 		#dim r as REXP = c.parseAndEval("x=matrix(c(1,2,3,4,5,6),2,3)")
 		w r.toString(), !
 		w r.toDebugString(), !
-		w "xxx", !
-		do r.asDoubleMatrix(.m)
+		w "isVector = ", r.isVector(), !
+		do r.asMatrix(.m)
 		//zw m
 		
-		#dim d as R.REXP = ##class(R.REXP).createDoubleMatrix(.m)
+		#dim d as R.REXP = ##class(R.REXP).createMatrix(.m)
 		w d.toString(), !
 		w d.toDebugString(), !
 		do c.assign("x", d)
 		set r = c.get("x")
 		w r.toString(), !
 		w r.toDebugString(), !
+		w "dim = ", r.dim().Count(), !
 		
 		set r  = c.parseAndEval("x=matrix(as.integer(c(1,2,3,4,5,6)),2,3)")
 		w r.toString(), !
 		w r.toDebugString(), !
 		
-		do r.asDoubleMatrix(.m)
+		do r.asMatrix(.m)
 		zw m
 	}
 	catch (e) {
@@ -154,6 +155,7 @@ ClassMethod Factor()
         set rf = ##class(R.RFactor).%New(s)
         set f = ##class(R.REXPFactor).%New(rf)
         w f.toString(), !
+        w "isVector = ", f.isVector(), !
 		do c.assign("f", f)
 		set f = c.parseAndEval("f")
 		w f.toString(), !
@@ -290,14 +292,20 @@ ClassMethod List()
 		w "  pull all three back to Cache", !
 		set x = c.parseAndEval("x")
 		w "x = ", x.toString(), !
+		w "isVector = ", x.isVector(), !
+		w "isList = ", x.isList(), !
 		set x = c.eval("y")
 		w "y = ", x.toString(), !
+		w "isVector = ", x.isVector(), !
+		w "isList = ", x.isList(), !
 		set x = c.eval("z")
 		w "z = ", x.toString(), !
+		w "isVector = ", x.isVector(), !
+		w "isList = ", x.isList(), !
+		w x.toDebugString(), !
+		w "hasAttribute = ", x.hasAttribute("names"), !
 		w "PASSED", !
-		
-	
-		
+			
 		w !, "* Testing functionality of assembled S3 objects ...", !
 		// we have already assigned the data.frame in previous test, so we jsut re-use it
 		//set x = c.parseAndEval("z[2,2]")
