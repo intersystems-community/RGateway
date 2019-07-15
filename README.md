@@ -1,6 +1,12 @@
 # RGateway
 R Gateway via RServe for InterSystems IRIS Data Platform. Author Shiao-Bin Soong: [email](mailto:Shiao-Bin.Soong@intersystems.com),  [github profile](https://github.com/ssoong88).
 
+# ML Toolkit Webinar in German
+
+Machine Learning ist gegenwärtig einer der wichtigsten Trends in der Anwendungsentwicklung. In unserer dreiteiligen Webinar-Serie „Machine Learning Toolkit für InterSystems IRIS“ erläutern unsere Experten Aleksandar Kovacevic und Thomas Nitzsche, wie sich Machine Learning Ansätze einfach und effizient mit InterSystems IRIS umsetzen lassen. Zum Auftakt der Webinar-Reihe widmen wir uns der Frage, was passiert, wenn InterSystems IRIS im Rahmen eines Machine Learning Projekts auf Python trifft. Neben den technischen Aspekten – dem „wie“ – stellen wir Ihnen auch einige relevante Praxisbeispiele vor, um die Frage nach dem „warum Machine Learning“ zu beantworten.
+FREITAG, 26 JULI 2019 von 10:30 Uhr bis 11:00 Uhr.
+[JETZT REGISTRIEREN](https://dach.intersystems.de/webinar2).
+
 # ML Toolkit user group
 
 ML Toolkit user group is a private GitHub repository set up as part of InterSystems corporate GitHub organization. It is addressed to the external users that are installing, learning or are already using ML Toolkit components. To join ML Toolkit user group, please send a short e-mail at the following address: [MLToolkit@intersystems.com](mailto:MLToolkit@intersystems.com?subject=MLToolkit%20user%20group&body=Hello.%0A%0APlease%20add%20me%20to%20ML%20Toolkit%20user%20group%3A%0A%0A-%20GitHub%20username%3A%20%0A%0A-%20Name%3A%20%0A%0A-%20Company%3A%20%0A%0A-%20Position%3A%0A-%20Country%3A%20%0A%0A) and indicate in your e-mail the following details (needed for the group members to get to know and identify you during discussions):
