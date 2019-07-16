@@ -4,7 +4,7 @@ Class R.Msg.AssignRequest Extends Ens.Request
 
 Property Name As %String;
 
-Property Data As RData;
+Property Data As R.Msg.RData;
 
 Storage Default
 {

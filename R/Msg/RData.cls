@@ -3,10 +3,10 @@ Class R.Msg.RData Extends (%SerialObject, %XML.Adaptor)
 {
 
 /// Data class
-Property Class As %String(VALUELIST = ",Vector,Matrix,Factor,List,DataFrame,Raw");
+Property Class As %String(VALUELIST = ",Vector,Matrix,Factor,List,DataFrame,Raw,Unknown");
 
 /// Data type. Only applicable when Class is Vector or Matrix
-Property Type As %String(VALUELIST = ",Double,String,Integer,Logical");
+Property Type As %String(VALUELIST = ",Double,String,Integer,Logical,Unknown");
 
 /// Used when Class is Matrix or Factor
 /// Matrix: Attributes(1) - number of rows; Attributes(2) - number of columns
@@ -231,7 +231,7 @@ Method SetClassAttributes(ByRef rexp As R.REXP)
 			Set ..Class = "Matrix"
 		}
 		Else {
-			Set ..Class = "Unknow"
+			Set ..Class = "Unknown"
 		}
 		For i=1:1:len {
 			Do ..Attributes.Insert(dim.GetAt(i))

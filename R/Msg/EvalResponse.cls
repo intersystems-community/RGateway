@@ -2,7 +2,7 @@
 Class R.Msg.EvalResponse Extends Ens.Response
 {
 
-Property Data As RData;
+Property Data As R.Msg.RData;
 
 Storage Default
 {
