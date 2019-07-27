@@ -3,9 +3,11 @@ R Gateway via RServe for InterSystems IRIS Data Platform. Author Shiao-Bin Soong
 
 # ML Toolkit Webinar in German
 
-Machine Learning ist gegenwärtig einer der wichtigsten Trends in der Anwendungsentwicklung. In unserer dreiteiligen Webinar-Serie „Machine Learning Toolkit für InterSystems IRIS“ erläutern unsere Experten Aleksandar Kovacevic und Thomas Nitzsche, wie sich Machine Learning Ansätze einfach und effizient mit InterSystems IRIS umsetzen lassen. Zum Auftakt der Webinar-Reihe widmen wir uns der Frage, was passiert, wenn InterSystems IRIS im Rahmen eines Machine Learning Projekts auf Python trifft. Neben den technischen Aspekten – dem „wie“ – stellen wir Ihnen auch einige relevante Praxisbeispiele vor, um die Frage nach dem „warum Machine Learning“ zu beantworten.
-FREITAG, 26 JULI 2019 von 10:30 Uhr bis 11:00 Uhr.
-[JETZT REGISTRIEREN](https://dach.intersystems.de/webinar2).
+Machine Learning ist gegenwärtig einer der wichtigsten Trends in der Anwendungsentwicklung. In unserer dreiteiligen Webinar-Serie „Machine Learning Toolkit für InterSystems IRIS“ erläutern unsere Experten Aleksandar Kovacevic und Thomas Nitzsche, wie sich Machine Learning Ansätze einfach und effizient mit InterSystems IRIS umsetzen lassen.
+
+Melden Sie sich am besten direkt an und erfahren Sie, wie InterSystems IRIS sowohl als eigenständige Entwicklungsplattform wie auch als Orchestrierungswerkzeug für Predictive Modeling eingesetzt werden kann und wie externe Tools in den Entwicklungsprozess eingebunden werden.
+FREITAG, 02. AUGUST 2019 von 10:30 Uhr bis 11:00 Uhr
+[JETZT REGISTRIEREN](https://dach.intersystems.de/webinar3).
 
 # ML Toolkit user group
 
