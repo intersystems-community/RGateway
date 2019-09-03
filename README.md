@@ -1,6 +1,20 @@
 # RGateway
 R Gateway via RServe for InterSystems IRIS Data Platform. Author Shiao-Bin Soong: [email](mailto:Shiao-Bin.Soong@intersystems.com),  [github profile](https://github.com/ssoong88).
 
+# Webinar - AI Robotization
+
+Machine Learning (ML) Toolkit - a set of extensions to implement machine learning and artificial intelligence on the InterSystems IRIS Data Platform. As part of our webinar, we plan to present an approach to the robotization of these tasks, i.e. to ensure their autonomous adaptive execution proceeds within the parameters and rules you specify. Self-learning neural networks, self-monitoring analytical processes, agency of analytical processes are the main subjects of this webinar.
+
+Webinar is aimed at both experts in Data Science, Data Engineering, Robotic Process Automation - and those who just discover the world of artificial intelligence and machine learning.
+
+We are waiting for you at our event!
+
+The language of the webinar is Russian. 
+
+Date: 18 September, 10:00 – 11:00 (GMT+3).
+
+[Register](https://www.intersystems.com/ru/news-events/events/intersystems-ml-toolkit-webinar/).
+
 # ML Toolkit user group
 
 ML Toolkit user group is a private GitHub repository set up as part of InterSystems corporate GitHub organization. It is addressed to the external users that are installing, learning or are already using ML Toolkit components. To join ML Toolkit user group, please send a short e-mail at the following address: [MLToolkit@intersystems.com](mailto:MLToolkit@intersystems.com?subject=MLToolkit%20user%20group&body=Hello.%0A%0APlease%20add%20me%20to%20ML%20Toolkit%20user%20group%3A%0A%0A-%20GitHub%20username%3A%20%0A%0A-%20Name%3A%20%0A%0A-%20Company%3A%20%0A%0A-%20Position%3A%0A-%20Country%3A%20%0A%0A) and indicate in your e-mail the following details (needed for the group members to get to know and identify you during discussions):
