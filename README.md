@@ -50,11 +50,12 @@ ML Toolkit user group is a private GitHub repository set up as part of InterSyst
 3. The following ObjectScript code illustrates the simple integration with Rserve:
 
 ```
-	R.RConnection c = ##class(R.RConnection).%New() // Create a R client
+	Set c = ##class(R.RConnection).%New() // Create a R client
 	Set x = ##class(R.REXPDouble).%New(3.0) // A single double value
 	Do c.assign("x", x) // Assign the value to R variable x
 	Do c.eval("y<-sqrt(x)") // Evaluate R script
 	Set y = c.get("y") // Get the value of R variable y
+	Write y.toJSON().%ToJSON()
 ```
 
 It is advised to wrap all ObjectScript code in a try catch block. More test cases and usages can be found in class `R.Test`.
